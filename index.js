@@ -24,7 +24,7 @@ app.use(
 app.use('/api/auth',authRoutes)
 app.use('/api/messages',messageRoutes)
 app.use('/',(req,res)=>{
-  return res({message:"Welcome to chat app server"})
+  res.json({ message: "Welcome to chat app server" });
 })
 
 export default app
