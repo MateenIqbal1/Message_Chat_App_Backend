@@ -14,11 +14,15 @@ const PORT=process.env.PORT
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser())
 app.use(
-    cors({
-      origin: "http://localhost:5173", // Your frontend URL
-      credentials: true, // Required for sending cookies with cross-origin requests
-    })
-  );
+  cors({
+    origin: [
+      "http://localhost:5173", // local dev
+      "https://message-chat-app-frontend.vercel.app" // deployed frontend
+    ],
+    credentials: true, // required for cookies / sessions
+  })
+);
+
   
 
   connectDB()
