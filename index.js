@@ -21,10 +21,16 @@ app.use(
   );
   
 
+  connectDB()
+
 app.use('/api/auth',authRoutes)
 app.use('/api/messages',messageRoutes)
 app.use('/',(req,res)=>{
   res.json({ message: "Welcome to chat app server" });
 })
+
+server.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
 
 export default app
