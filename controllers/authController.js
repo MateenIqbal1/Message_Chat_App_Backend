@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
         })
 
         if (newUser) {
-            const token = generateToken(user._id);
+            const token = generateToken(newUser._id);
 
             await newUser.save();
 
@@ -52,34 +52,41 @@ export const signup = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email })
-
-        if (!user) {
-            return res.status(400).json({ message: "Invalid credentials" })
-        }
-
-        const isPasswordCorrect = await bcrypt.compare(password, user.password)
-        if (!isPasswordCorrect) {
-            return res.status(400).json({ message: "Invalid credentials" })
-        }
-
-        const token = generateToken(user._id);
-
-        res.status(200).json({
-            _id: user._id,
-            fullName: user.fullName,
-            email: user.email,
-            profilePic: user.profilePic,
-            token, // Send it to the frontend
-          });
-          
+      console.log("🔐 Login attempt:", email);
+  
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        console.log("❌ No user found with email");
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+  
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordCorrect) {
+        console.log("❌ Password incorrect");
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+  
+      const token = generateToken(user._id);
+  
+      console.log("✅ Login successful for user:", user._id);
+  
+      res.status(200).json({
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        profilePic: user.profilePic,
+        token,
+      });
     } catch (error) {
-        console.log('Error in login controller', error.message);
-        res.status(500).json({ message: "Internal Server Error" })
+      console.error("🔥 Error in login controller:", error); // full stack trace
+      res.status(500).json({ message: "Internal Server Error" });
     }
-}
+  };
+  
 
 export const logout = async (req, res) => {
     try {
