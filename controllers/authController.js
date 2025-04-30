@@ -54,25 +54,25 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-      console.log("🔐 Login attempt:", email);
+      console.log("Login attempt:", email);
   
       const user = await User.findOne({ email });
   
       if (!user) {
-        console.log("❌ No user found with email");
+        console.log(" No user found with email");
         return res.status(400).json({ message: "Invalid credentials" });
       }
   
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
   
       if (!isPasswordCorrect) {
-        console.log("❌ Password incorrect");
+        console.log(" Password incorrect");
         return res.status(400).json({ message: "Invalid credentials" });
       }
   
       const token = generateToken(user._id);
   
-      console.log("✅ Login successful for user:", user._id);
+      console.log(" Login successful for user:", user._id);
   
       res.status(200).json({
         _id: user._id,
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
         token,
       });
     } catch (error) {
-      console.error("🔥 Error in login controller:", error); // full stack trace
+      console.error("Error in login controller:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   };

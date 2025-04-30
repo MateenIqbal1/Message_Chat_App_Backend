@@ -16,10 +16,10 @@ app.use(cookieParser())
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // local dev
-      "https://message-chat-app-frontend.vercel.app" // deployed frontend
+      "http://localhost:5173",
+      "https://message-chat-app-frontend.vercel.app" 
     ],
-    credentials: true, // required for cookies / sessions
+    credentials: true, 
   })
 );
 
