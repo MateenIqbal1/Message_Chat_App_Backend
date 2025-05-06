@@ -13,6 +13,12 @@ const PORT=process.env.PORT
 
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser())
+
+mongoose.connect(process.env.MONGODB_URL)
+    .then(() => console.log('Mongodb connected'))
+    .catch(error => console.log(error));
+
+
 app.use(
   cors({
     origin: [
@@ -25,7 +31,6 @@ app.use(
 
   
 
-  connectDB()
 
 app.use('/api/auth',authRoutes)
 app.use('/api/messages',messageRoutes)
